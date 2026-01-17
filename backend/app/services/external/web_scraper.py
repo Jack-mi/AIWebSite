@@ -36,9 +36,22 @@ class WebScraper:
                 title = await page.title()
                 html_content = await page.content()
 
-                # Get meta information
-                meta_description = await page.get_attribute('meta[name="description"]', 'content') or ""
-                meta_keywords = await page.get_attribute('meta[name="keywords"]', 'content') or ""
+                # Get meta information (with error handling for missing tags)
+                meta_description = ""
+                meta_keywords = ""
+                try:
+                    desc_element = await page.query_selector('meta[name="description"]')
+                    if desc_element:
+                        meta_description = await desc_element.get_attribute('content') or ""
+                except:
+                    pass
+                
+                try:
+                    keywords_element = await page.query_selector('meta[name="keywords"]')
+                    if keywords_element:
+                        meta_keywords = await keywords_element.get_attribute('content') or ""
+                except:
+                    pass
 
                 # Get all text content
                 text_content = await page.evaluate("""
