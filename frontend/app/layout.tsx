@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { UserProvider } from '@auth0/nextjs-auth0/client'
+// import { UserProvider } from '@auth0/nextjs-auth0/client'
 
 export const metadata: Metadata = {
   title: 'InsightEye - AI Website Analysis Tool',
@@ -14,11 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <UserProvider>
-        <body className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-          <main>{children}</main>
-        </body>
-      </UserProvider>
+      <body className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <main>{children}</main>
+      </body>
     </html>
   )
 }

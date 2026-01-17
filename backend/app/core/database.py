@@ -5,8 +5,22 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 import asyncpg
 from app.core.config import settings
 
+# Determine database URL based on configuration
+def get_database_url():
+    if settings.USE_SUPABASE and settings.SUPABASE_URL:
+        from app.core.supabase_client import get_supabase_database_url
+        return get_supabase_database_url()
+    return settings.DATABASE_URL
+
+def get_async_database_url():
+    if settings.USE_SUPABASE and settings.SUPABASE_URL:
+        from app.core.supabase_client import get_supabase_async_database_url
+        return get_supabase_async_database_url()
+    db_url = get_database_url()
+    return db_url.replace("postgresql://", "postgresql+asyncpg://")
+
 # Convert PostgreSQL URL for async
-ASYNC_DATABASE_URL = settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
+ASYNC_DATABASE_URL = get_async_database_url()
 
 # Create async engine
 async_engine = create_async_engine(
@@ -16,7 +30,7 @@ async_engine = create_async_engine(
 )
 
 # Create sync engine for migrations
-sync_engine = create_engine(settings.DATABASE_URL)
+sync_engine = create_engine(get_database_url())
 
 # Create session makers
 AsyncSessionLocal = sessionmaker(

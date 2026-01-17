@@ -31,6 +31,13 @@ class Settings(BaseSettings):
         "postgresql://postgres:password@localhost:5432/insighteye"
     )
 
+    # Supabase Configuration
+    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
+    SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "")
+    SUPABASE_SERVICE_ROLE_KEY: str = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+    SUPABASE_DB_PASSWORD: str = os.getenv("SUPABASE_DB_PASSWORD", "")
+    USE_SUPABASE: bool = os.getenv("USE_SUPABASE", "false").lower() == "true"
+
     # Redis
     REDIS_URL: str = os.getenv(
         "REDIS_URL",
@@ -40,7 +47,7 @@ class Settings(BaseSettings):
     # OpenRouter API
     OPENROUTER_API_KEY: str = os.getenv(
         "OPENROUTER_API_KEY",
-        "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"
+        ""
     )
     OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
 
@@ -48,6 +55,9 @@ class Settings(BaseSettings):
     AUTH0_DOMAIN: str = os.getenv("AUTH0_DOMAIN", "")
     AUTH0_CLIENT_ID: str = os.getenv("AUTH0_CLIENT_ID", "")
     AUTH0_CLIENT_SECRET: str = os.getenv("AUTH0_CLIENT_SECRET", "")
+    AUTH0_SECRET: str = os.getenv("AUTH0_SECRET", "")
+    AUTH0_BASE_URL: str = os.getenv("AUTH0_BASE_URL", "")
+    AUTH0_ISSUER_BASE_URL: str = os.getenv("AUTH0_ISSUER_BASE_URL", "")
 
     # External APIs
     SIMILARWEB_API_KEY: str = os.getenv("SIMILARWEB_API_KEY", "")
@@ -65,8 +75,11 @@ class Settings(BaseSettings):
     CELERY_BROKER_URL: str = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
     CELERY_RESULT_BACKEND: str = os.getenv("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
 
+    # Frontend
+    NEXT_PUBLIC_API_URL: str = os.getenv("NEXT_PUBLIC_API_URL", "")
+
     class Config:
         case_sensitive = True
-        env_file = ".env"
+        env_file = "../.env"
 
 settings = Settings()

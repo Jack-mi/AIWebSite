@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useUser } from '@auth0/nextjs-auth0/client'
+// import { useUser } from '@auth0/nextjs-auth0/client'
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
 
         <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
           <Link
-            href="/api/auth/login"
+            href="/dashboard"
             className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
           >
             开始分析

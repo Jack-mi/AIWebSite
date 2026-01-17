@@ -5,7 +5,7 @@ import uvicorn
 from contextlib import asynccontextmanager
 
 from app.core.config import settings
-from app.core.database import init_db
+from app.core.database_simple import init_db
 from app.api.v1.api import api_router
 
 @asynccontextmanager

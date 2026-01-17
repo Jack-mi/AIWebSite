@@ -18,7 +18,7 @@ class OpenRouterClient:
     async def chat_completion(
         self,
         messages: List[Dict[str, str]],
-        model: str = "anthropic/claude-3.5-sonnet",
+        model: str = "google/gemini-2.0-flash-exp:free",
         max_tokens: int = 4000,
         temperature: float = 0.7,
         **kwargs
@@ -56,6 +56,15 @@ class OpenRouterClient:
         """
         Analyze website content using AI
         """
+        # Filter out image references to avoid model errors
+        import re
+        # Remove markdown image syntax: ![alt](url)
+        content = re.sub(r'!\[.*?\]\(.*?\)', '', content)
+        # Remove HTML image tags
+        content = re.sub(r'<img[^>]*>', '', content)
+        # Remove any remaining image URLs
+        content = re.sub(r'https?://[^\s]*\.(jpg|jpeg|png|gif|webp|svg)', '', content)
+        
         system_prompt = """You are an expert website analyst. Analyze the provided website content and extract insights about:
 
 1. Core functionality and features
@@ -147,6 +156,12 @@ Please provide a comprehensive analysis in the following JSON structure:
         """
         Extract user intents from website content
         """
+        # Filter out image references to avoid model errors
+        import re
+        content = re.sub(r'!\[.*?\]\(.*?\)', '', content)
+        content = re.sub(r'<img[^>]*>', '', content)
+        content = re.sub(r'https?://[^\s]*\.(jpg|jpeg|png|gif|webp|svg)', '', content)
+        
         system_prompt = """You are an expert UX researcher specializing in user intent analysis.
         Analyze website content to identify the core user intents and motivations that the website addresses.
 
@@ -205,6 +220,12 @@ Return a JSON array of user intents in this format:
         """
         Identify website features and functionality
         """
+        # Filter out image references to avoid model errors
+        import re
+        content = re.sub(r'!\[.*?\]\(.*?\)', '', content)
+        content = re.sub(r'<img[^>]*>', '', content)
+        content = re.sub(r'https?://[^\s]*\.(jpg|jpeg|png|gif|webp|svg)', '', content)
+        
         system_prompt = """You are a product analyst expert at identifying website features and functionality.
         Analyze the content and identify all the features, tools, and capabilities the website offers."""
 
